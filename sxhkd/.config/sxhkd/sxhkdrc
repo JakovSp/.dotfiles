@@ -1,0 +1,26 @@
+super + space
+	~/.config/sxhkd/scripts/changekeylayout.sh
+
+XF86AudioMute
+	amixer -q sset Master toggle && pkill -RTMIN+10 dwmblocks
+
+XF86AudioRaiseVolume
+	amixer -q sset Master 4%+ && pkill -RTMIN+10 dwmblocks
+
+XF86AudioLowerVolume
+	amixer -q sset Master 4%- && pkill -RTMIN+10 dwmblocks
+
+XF86MonBrightnessDown
+	~/.config/sxhkd/scripts/backlight -
+
+XF86MonBrightnessUp
+	~/.config/sxhkd/scripts/backlight +
+
+F9
+	slock
+
+Print
+	screenshot
+
+super + XF86AudioPlay
+	record

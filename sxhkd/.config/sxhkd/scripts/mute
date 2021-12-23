@@ -1,0 +1,9 @@
+#!/bin/sh
+
+VOL=$(amixer sget Master | awk -F"[][]" '/dB/ { print substr($2, 1, length($2)-1)}' | bc)
+
+# if [ "$VOL" -eq 0 ]; then
+	amixer -q sset Master toggle && pkill -RTMIN+10 dwmblocks
+# else
+	# amixer -q sset Master -c 0 && pkill -RTMIN+10 dwmblocks
+# fi

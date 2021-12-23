@@ -1,0 +1,13 @@
+#/bin/sh
+
+brightness=$(cat /sys/class/backlight/amdgpu_bl0/brightness)
+
+if [ "$1" == "+" ]; then
+	brightness=`expr $brightness + 25`
+else
+	if [ $brightness > 25 ]; then
+		brightness=`expr $brightness - 25`
+	fi
+fi
+
+echo "$brightness" > /sys/class/backlight/amdgpu_bl0/brightness
