@@ -4,3 +4,5 @@
 	email = jspahi00@fesb.hr
 [core]
 	editor = nvim
+[credential]
+	helper = cache
