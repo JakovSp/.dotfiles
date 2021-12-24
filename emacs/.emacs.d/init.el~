@@ -171,7 +171,7 @@
  '(ediff-split-window-function 'split-window-horizontally)
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
  '(package-selected-packages
-   '(evil-numbers rmsbolt compiler-explorer beacon-color beacon dashboard lldb-vscode cpptools dap-cpptools cpp-tools evil-surround evil-commentary evil-leader dap-utils dap-lldb tree-sitter-indent elisp-tree-sitter emacs-tree-sitter tree-sitter-core tree-sitter-langs yasnippet xclip which-key use-package undo-tree tree-sitter theme-changer quelpa org-roam matlab-mode magit lsp-ui linum-relative ligature ivy-rich indent-info helpful gruvbox-theme general flycheck exec-path-from-shell evil-nerd-commenter evil-collection elfeed-org doom-themes doom-modeline dap-mode counsel-projectile company-box command-log-mode auctex))
+   '(elfeed-dashboard evil-numbers rmsbolt compiler-explorer beacon-color beacon dashboard lldb-vscode cpptools dap-cpptools cpp-tools evil-surround evil-commentary evil-leader dap-utils dap-lldb tree-sitter-indent elisp-tree-sitter emacs-tree-sitter tree-sitter-core tree-sitter-langs yasnippet xclip which-key use-package undo-tree tree-sitter theme-changer quelpa org-roam matlab-mode magit lsp-ui linum-relative ligature ivy-rich indent-info helpful gruvbox-theme general flycheck exec-path-from-shell evil-nerd-commenter evil-collection elfeed-org doom-themes doom-modeline dap-mode counsel-projectile company-box command-log-mode auctex))
  '(tab-width 4))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -182,3 +182,5 @@
 
 
 ;; (setq compilation-read-command t)
+
+
