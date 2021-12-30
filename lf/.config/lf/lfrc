@@ -8,6 +8,7 @@ set ifs "\n"
 set scrolloff 10
 set period 1
 set icons
+set incsearch on
 
 # # Vars that depend on environmental variables
 # $lf -remote "send $id set previewer ${XDG_CONFIG_HOME:-$HOME/.config}/lf/scope"
@@ -92,9 +93,9 @@ map C copyto
 map M moveto
 map <c-n> push :mkdir<space>
 map <c-r> reload
-# map <c-s> set hidden!
+map . set hidden!
 # map <enter> shell
-# map x $$f
+map x $$f
 # map X !$f
 map o &mimeopen $f
 map O $mimeopen --ask $f
@@ -109,8 +110,8 @@ map c push A<c-u> # new rename
 
 map <c-e> down
 map <c-y> up
-# map V push :!nvim<space>
-#
+map V push :!nvim<space>
+
 # map W $setsid -f $TERMINAL >/dev/null 2>&1
 #
 # # Source Bookmarks

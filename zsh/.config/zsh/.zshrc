@@ -251,3 +251,5 @@ fi
 if [[ -z $DISPLAY ]]; then
 	startx
 fi
+
+set $EDITOR="/usr/local/bin/nvim"
