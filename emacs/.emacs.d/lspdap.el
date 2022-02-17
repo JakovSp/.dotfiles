@@ -23,6 +23,8 @@
 (use-package company-box
   :hook (company-mode . company-box-mode))
 
+(setq lsp-ui-doc-enable nil)
+
 (add-hook 'c-mode-hook 'lsp)
 (add-hook 'c++-mode-hook 'lsp)
 
@@ -45,11 +47,12 @@
 (use-package tree-sitter)
 (global-tree-sitter-mode)
 ;(add-hook 'prog-mode-hook #'tree-sitter-mode)
-(add-hook 'c-mode-hook '(tree-sitter-hl-mode))
-(add-hook 'c++-mode-hook '(tree-sitter-hl-mode))
+;; (add-hook 'c-mode-hook '(tree-sitter-hl-mode))
+;; (add-hook 'c++-mode-hook '(tree-sitter-hl-mode))
 ;; (use-package tree-sitter-indent
 ;;   :config
 ;;   (setq c-indent-offset 4)
 ;;   (setq tree-sitter-indent-c-scopes 4))
 
 (use-package rmsbolt)
+

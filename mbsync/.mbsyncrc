@@ -5,7 +5,7 @@ User jspahi00@fesb.hr
 PassCmd "pass jspahi00@fesb.hr"
 AuthMechs LOGIN
 SSLType IMAPS
-# SSLVersions TLSv1.2
+SSLVersions TLSv1.2
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
 # Remote storage
@@ -17,78 +17,53 @@ MaildirStore fesb-local
 Subfolders Verbatim
 Path ~/.local/mail/fesb/
 Inbox ~/.local/mail/fesb/INBOX
+SubFolders Legacy
+
 
 Channel fesb
 Expunge Both
 Master :fesb-remote:
 Slave :fesb-local:
-Patterns * !"[Gmail]/All Mail"
+Patterns *
 Create Both
 SyncState *
 MaxMessages 0
 ExpireUnread no
-# End profile
+Sync all
 
-#Channel fesb-inbox
-#Master :fesb-remote:"INBOX"
-#Slave :fesb-local:INBOX
-#Create Both
-#Expunge Both
-#
-#Channel fesb-drafts
-#Master :fesb-remote:"Drafts"
-#Slave :fesb-local:Drafts
-#Create Both
-#Expunge Both
-#
-#Channel fesb-sent
-#Master :fesb-remote:"Sent"
-#Slave :fesb-local:sent
-#Create Both
-#Expunge Both
-#
-#Channel fesb-trash
-#Master :fesb-remote:"Trash"
-#Slave :fesb-local:Trash
-#Create Both
-#Expunge Both
-#
-#Channel fesb-junk
-#Master :fesb-remote:"Junk"
-#Slave :fesb-local:Junk
-#Create Both
-#Expunge Both
-#
-#Group mail
-#Channel fesb-inbox
-#Channel fesb-drafts
-#Channel fesb-sent
-#Channel fesb-trash
-#Channel fesb-junk
-
-# IMAPAccount fesb
-# IMAPStore jspahi00@fesb.hr-remote
-# Host outlook.office365.com
-# Port 993
-# User jspahi00@fesb.hr
-# PassCmd "pass jspahi00@fesb.hr"
-# AuthMechs LOGIN
-# SSLType IMAPS
-# CertificateFile /etc/ssl/certs/ca-certificates.crt
-
-# MaildirStore jspahi00@fesb.hr-local
-# Subfolders Verbatim
-# Path /home/jakov/.local/share/mail/jspahi00@fesb.hr/
-# Inbox /home/jakov/.local/share/mail/jspahi00@fesb.hr/INBOX
-
-# Channel jspahi00@fesb.hr
-# Expunge Both
-# Master :jspahi00@fesb.hr-remote:
-# Slave :jspahi00@fesb.hr-local:
-# Patterns * !"[Gmail]/All Mail"
+# Channel fesb-inbox
+# Master :fesb-remote:"INBOX"
+# Slave :fesb-local:INBOX
 # Create Both
-# SyncState *
-# MaxMessages 0
-# ExpireUnread no
-# End profile
+# Expunge Both
 
+# Channel fesb-drafts
+# Master :fesb-remote:"Drafts"
+# Slave :fesb-local:Drafts
+# Create Both
+# Expunge Both
+
+# Channel fesb-sent
+# Master :fesb-remote:"Sent"
+# Slave :fesb-local:Sent
+# Create Both
+# Expunge Both
+
+# Channel fesb-trash
+# Master :fesb-remote:"Trash"
+# Slave :fesb-local:Trash
+# Create Both
+# Expunge Both
+
+# Channel fesb-junk
+# Master :fesb-remote:"Junk"
+# Slave :fesb-local:Junk
+# Create Both
+# Expunge Both
+
+# Group mail
+# Channel fesb-inbox
+# Channel fesb-drafts
+# Channel fesb-sent
+# Channel fesb-trash
+# Channel fesb-junk

@@ -1,6 +1,9 @@
 super + space
 	~/.config/sxhkd/scripts/changekeylayout.sh
 
+Caps_Lock
+	pkill -RTMIN+30 dwmblocks
+
 XF86AudioMute
 	amixer -q sset Master toggle && pkill -RTMIN+10 dwmblocks
 

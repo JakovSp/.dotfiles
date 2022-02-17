@@ -1,4 +1,18 @@
-(require 'mu4e)
+;;(require 'mu4e)
+(use-package pinentry)
+(setq epa-pinentry-mode 'loopback)
+(use-package auth-source-pass)
+(setq auth-sources '(password-store))
+(auth-source-pass-enable)
+
+(use-package smtpmail)
+
+(use-package mu4e
+  :ensure nil
+  :config
+  (setq mu4e-change-filenames-when-moving t)
+  (setq mu4e-get-mail-command "mbsync -a"))
+
 (require 'org-mu4e)
 (require 'mu4e-contrib)
 (require 'smtpmail)
@@ -6,10 +20,12 @@
 (auth-source-pass-enable)
 (setq auth-source-debug t)
 (setq auth-source-do-cache nil)
+(setq mu4e-update-interval 180)
 (setq auth-sources '(password-store))
 (setq message-kill-buffer-on-exit t)
 (setq message-send-mail-function 'smtpmail-send-it)
-(setq mu4e-attachment-dir "~/Downloads")
+(setq send-mail-function 'smtpmail-send-it)
+(setq mu4e-attachment-dir "~/Documents")
 (setq mu4e-change-filenames-when-moving t)
 (setq mu4e-completing-read-function 'completing-read)
 (setq mu4e-compose-complete-addresses t)
@@ -25,24 +41,26 @@
 (setq smtpmail-debug-info t)
 (setq smtpmail-stream-type 'starttls)
 (setq mm-sign-option 'guided)
+(setq send-mail-program "/usr/bin/msmtp")
 
-(when (fboundp 'imagemagick-register-types)
-(imagemagick-register-types))
+;; (when (fboundp 'imagemagick-register-types)
+;; (imagemagick-register-types))
 
-(defun sign-or-encrypt-message ()
-(let ((answer (read-from-minibuffer "Sign or encrypt?\nEmpty to do nothing.\n[s/e]: ")))
-  (cond
-   ((string-equal answer "s") (progn
-								(message "Signing message.")
-								(mml-secure-message-sign-pgpmime)))
-   ((string-equal answer "e") (progn
-								(message "Encrypt and signing message.")
-								(mml-secure-message-encrypt-pgpmime)))
-   (t (progn
-		(message "Dont signing or encrypting message.")
-		nil)))))
+;; (defun sign-or-encrypt-message ()
+;; (let ((answer (read-from-minibuffer "Sign or encrypt?\nEmpty to do nothing.\n[s/e]: ")))
+;;   (cond
+;;    ((string-equal answer "s") (progn
+;; 								(message "Signing message.")
+;; 								(mml-secure-message-sign-pgpmime)))
+;;    ((string-equal answer "e") (progn
+;; 								(message "Encrypt and signing message.")
+;; 								(mml-secure-message-encrypt-pgpmime)))
+;;    (t (progn
+;; 		(message "Dont signing or encrypting message.")
+;; 		nil)))))
 
-(add-hook 'message-send-hook 'sign-or-encrypt-message)
+;; (add-hook 'message-send-hook 'sign-or-encrypt-message)
+
 (setq mu4e-contexts
 	`( ,(make-mu4e-context
 			:name "fesb"
@@ -51,7 +69,7 @@
 						(when (string-match-p (buffer-name (current-buffer)) "mu4e-main")
 							(revert-buffer)))
 			:leave-func (lambda ()
-						(mu4e-message "Leaving gmail context")
+						(mu4e-message "Leaving fesb context")
 						(when (string-match-p (buffer-name (current-buffer)) "mu4e-main")
 							(revert-buffer)))
 			:match-func (lambda (msg)
@@ -68,13 +86,13 @@
 					( mu4e-bookmarks
 					.
 					(( :name  "Unread messages"
-								:query "maildir:/gmail/Inbox AND flag:unread AND NOT flag:trashed AND NOT outdoorexperten"
+								:query "maildir:/fesb/INBOX AND flag:unread AND NOT flag:trashed AND NOT outdoorexperten"
 								:key ?u)
 						( :name "Today's messages"
-								:query "maildir:/gmail/Inbox AND date:today..now"
+								:query "maildir:/fesb/INBOX AND date:today..now"
 								:key ?t)
 						( :name "Last 7 days"
-								:query "maildir:/gmail/Inbox AND date:7d..now"
+								:query "maildir:/fesb/INBOX AND date:7d..now"
 								:hide-unread t
 								:key ?w)
 						( :name "Deleted"
@@ -86,24 +104,17 @@
 		))
 
 
-;; I have my "default" parameters from Gmail
-(setq mu4e-sent-folder "/sent"
-      ;; mu4e-sent-messages-behavior 'delete ;; Unsure how this should be configured
-      mu4e-drafts-folder "/Drafts"
-      user-mail-address "jspahi00@fesb.hr"
-      smtpmail-default-smtp-server "smtp-mail.outlook.com"
-      smtpmail-smtp-server "smtp-mail.outlook.com"
-      smtpmail-smtp-service 587)
-
-;;Now I set a list of 
 (defvar my-mu4e-account-alist
   '(("Outlook"
      (mu4e-sent-folder "/Sent")
      (user-mail-address "jspahi00@fesb.hr")
-     (smtpmail-smtp-user "jspahi00")
+     (smtpmail-smtp-user "jspahi00@fesb.hr")
      (smtpmail-local-domain "outlook.com")
-     (smtpmail-default-smtp-server "smtp-mail.outlook.com")
      (smtpmail-smtp-server "smtp-mail.outlook.com")
+     (smtpmail-default-smtp-server "smtp-mail.outlook.com")
+     (smtpmail-starttls-credentials '(("smtp-mail.outlook.com" 587 nil nil)))
+     (smtpmail-auth-credentials '(("smtp-mail.outlook.com" 587 "jspahi00@fesb.hr" nil)))
+     (smtpmail-stream-type starttls)
      (smtpmail-smtp-service 587)
      )
      ;; Include any other accounts here ...
@@ -130,4 +141,6 @@
       (set (car var) (cadr var)))
         account-vars)
       (error "No email account found"))))
+
 (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
+

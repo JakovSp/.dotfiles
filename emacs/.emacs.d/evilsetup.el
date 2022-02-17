@@ -19,10 +19,14 @@
   (setq evil-respect-visual-line-mode t)
   (setq evil-undo-system 'undo-tree)
   (setq evil-undo-tree-autosave-history t)
+  (setq evil-symbol-word-search 'symbol)
   :config
   (evil-mode 1)
   (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
   (define-key evil-normal-state-map (kbd "K") 'man)
+  (define-key evil-normal-state-map (kbd "s") 'evil-surround-edit)
+  (define-key evil-visual-state-map (kbd "s") 'evil-surround-region)
+  (define-key evil-normal-state-map (kbd "z z") 'save-buffer)
   ;(define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
 
   ;; Use visual line motions even outside of visual-line-mode buffers
@@ -31,6 +35,7 @@
   
   (evil-set-initial-state 'messages-buffer-mode 'normal)
   (evil-set-initial-state 'dashboard-mode 'normal))
+(add-hook 'after-change-major-mode-hook (lambda () (modify-syntax-entry ?_ "w")))
 
 ;; (use-package general
 ;;   :config
@@ -64,3 +69,10 @@
 (global-unset-key (kbd "C-M-a"))
 (define-key global-map (kbd "C-a") 'evil-numbers/inc-at-pt-incremental)
 (define-key global-map (kbd "C-M-a") 'evil-numbers/dec-at-pt-incremental)
+
+(use-package evil-visualstar)
+(global-evil-visualstar-mode)
+(setq evil-visualstar/persistent 't)
+
+
+;; test_test test_test

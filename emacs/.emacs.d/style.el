@@ -24,8 +24,8 @@
 (setq display-line-numbers-type 'relative)
 (add-hook 'prog-mode-hook (lambda () (setq display-line-numbers 'relative)))
 
-(set-face-attribute 'default nil :font "Iosevka Custom Extended" :height 130)
-(set-face-attribute 'font-lock-comment-face nil  :font "Iosevka Custom Extended Italic" :height 130)
+(set-face-attribute 'default nil :font "Iosevka Custom Extended" :height 115)
+(set-face-attribute 'font-lock-comment-face nil  :font "Iosevka Custom Extended Italic" :height 115)
 ;; (set-face-attribute 'default nil :font "Cascadia Code PL" :height 130)
 ;; (set-face-attribute 'font-lock-comment-face nil  :font "Cascadia Code PL Italic" :height 130)
 
@@ -61,3 +61,40 @@
 (beacon-mode 1)
 
 (electric-pair-mode)
+
+(quelpa '(ligature :repo "mickeynp/ligature.el" :fetcher github))
+(use-package ligature
+  :config
+  (ligature-set-ligatures 't '("->" "<-" "-->" "<--" "!=" "<=" ">=" "=>" "==>" "|=" "=="))
+  (global-ligature-mode t))
+
+(use-package all-the-icons)
+
+(use-package highlight-indent-guides)
+(setq highlight-indent-guides-method 'character)
+(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+
+(use-package adaptive-wrap)
+(setq-default adaptive-wrap-extra-indent 8)
+(add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode)
+
+(global-visual-line-mode t)
+
+(add-hook 'evil-insert-state-entry-hook 'hl-line-mode)
+(add-hook 'evil-insert-state-exit-hook (lambda () (hl-line-mode -1)))
+
+(use-package hl-todo)
+(setq hl-todo-keyword-faces
+      '(("TODO"   . "#FF0000")
+        ("FIXME"  . "#AA0000")
+        ("NOTE"  . "#008800")
+        ("DEBUG"  . "#A020F0")
+        ("QUERY"   . "#1E90FF")))
+(global-hl-todo-mode)
+
+(setq-default fill-column 80)
+(setq comment-auto-fill-only-comments t)
+
+(add-hook 'after-change-major-mode-hook (lambda () (auto-fill-mode)))
+
+(setq frame-resize-pixelwise 't)

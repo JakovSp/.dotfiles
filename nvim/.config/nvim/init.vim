@@ -69,9 +69,9 @@ let g:gruvbox_italic=1
 let g:gruvbox_italicize_comments=1
 let g:vimwiki_list = [{'path': '~/Documents/Notes/', 'syntax': 'markdown', 'ext': 'md'}]
 let g:markdown_folding = 1
-set background=dark
+set background=light
 
-colorscheme gruvbox
+" colorscheme gruvbox
 lua << EOF
 	require'lspconfig'.clangd.setup{}
 	require'lspconfig'.pyright.setup{}

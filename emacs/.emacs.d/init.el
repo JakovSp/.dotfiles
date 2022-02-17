@@ -19,17 +19,21 @@
                          ("elpa" . "https://elpa.gnu.org/packages/")))
 
 (package-initialize)
-;; (unless package-archive-contents
-;;  (package-refresh-contents))
+(unless package-archive-contents
+ (package-refresh-contents))
 
 ;; Initialize use-package on non-Linux platforms
-;; (unless (package-installed-p 'use-package)
-;;    (package-install 'use-package))
+(unless (package-installed-p 'use-package)
+   (package-install 'use-package))
 
 (require 'use-package)
 (setq use-package-always-ensure t)
 
 (setq quelpa-update-melpa-p nil)
+(use-package quelpa)
+
+(load-user-file "style.el")
+
 
 (use-package ivy
   :bind(("C-s" . swiper)
@@ -50,7 +54,6 @@
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
-
 (use-package counsel
   :bind (("M-x" . counsel-M-x)
 	 ("C-x b" . counsel-ibuffer)
@@ -63,7 +66,6 @@
 
 (global-set-key (kbd "C-M-j") 'ivy-switch-buffer)
 
-(load-user-file "style.el")
 (load-user-file "evilsetup.el")
 
 (use-package helpful
@@ -91,32 +93,40 @@
     (setq projectile-project-search-path '("~/.local/src")))
   (setq projectile-switch-project-action #'projectile-dired))
 
-(define-key prog-mode-map (kbd "<f5>") 'projectile-run-project)
 
 (use-package counsel-projectile
   :config (counsel-projectile-mode))
 
+(defun projectile-run-project-save-files (arg)
+  "Run project run command.
+
+Normally you'll be prompted for a compilation command, unless
+variable `compilation-read-command'.  You can force the prompt
+with a prefix ARG."
+  (interactive "P")
+  (let ((command (projectile-run-command (projectile-compilation-dir))))
+    (projectile--run-project-cmd command projectile-run-cmd-map
+								 :save-buffers 't
+                                 :use-comint-mode projectile-run-use-comint-mode)))
+
+
+(defun projectile-run-project-without-prompt (&optional prompt)
+  (interactive "P")
+  (let ((compilation-read-command
+         (or (not (projectile-run-command (projectile-compilation-dir)))
+             prompt)))
+    (projectile-run-project prompt)))
+
+(define-key prog-mode-map (kbd "<f5>") 'projectile-run-project-without-prompt)
+(define-key dired-mode-map (kbd "<f5>") 'projectile-run-project-without-prompt)
+(define-key compilation-mode-map (kbd "<f5>") 'projectile-run-project-without-prompt)
 
 (use-package magit
   :ensure t
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
-
-
-
-(use-package quelpa)
-(quelpa '(ligature :repo "mickeynp/ligature.el" :fetcher github))
-
-(use-package ligature
-  :config
-  (ligature-set-ligatures 't '("->" "<-" "-->" "<--" "!=" "<=" ">=" "=>" "==>" "|=" "=="))
-  (global-ligature-mode t))
-
-;(setq evil--jumps-buffer-targets ".*")
-
 (setq global-magit-auto-revert-mode t)
-
 
 (load-user-file "lspdap.el")
 
@@ -148,7 +158,10 @@
   :config
   (org-roam-setup))
 
+
 (load-user-file "news.el")
+
+(global-set-key (kbd "C-x o") 'ace-window)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -162,6 +175,7 @@
 	 ("GDBServer Connect Configuration" :type "gdbserver" :name "GDBServer::Connect" :target nil :cwd nil :executable nil :autorun nil :debugger_args nil :env nil :showDevDebugOutput :json-false :printCalls :json-false)
 	 ("GDB Run Configuration" :type "gdb" :request "launch" :name "GDB::Run" :target nil :cwd nil)
 	 ("cpptools::Run Configuration" :type "cppdbg" :request "launch" :name "cpptools::Run Configuration" :MIMode "gdb" :program "${workspaceFolder}/ replace with your binary" :cwd "${workspaceFolder}")))
+ '(dap-ui-many-windows-mode t)
  '(dashboard-items
    '((projects . 5)
 	 (recents . 5)
@@ -170,15 +184,14 @@
  '(ediff-diff-options "-w")
  '(ediff-split-window-function 'split-window-horizontally)
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
+ '(gdb-many-windows t)
+ '(lsp-vetur-format-options-tab-size 4)
  '(package-selected-packages
-   '(evil-numbers rmsbolt compiler-explorer beacon-color beacon dashboard lldb-vscode cpptools dap-cpptools cpp-tools evil-surround evil-commentary evil-leader dap-utils dap-lldb tree-sitter-indent elisp-tree-sitter emacs-tree-sitter tree-sitter-core tree-sitter-langs yasnippet xclip which-key use-package undo-tree tree-sitter theme-changer quelpa org-roam matlab-mode magit lsp-ui linum-relative ligature ivy-rich indent-info helpful gruvbox-theme general flycheck exec-path-from-shell evil-nerd-commenter evil-collection elfeed-org doom-themes doom-modeline dap-mode counsel-projectile company-box command-log-mode auctex))
+   '(doremi doremi-frm frame-cmds bzg-big-fringe hl-todo adaptive-wrap indent-guide highlight-indent-guides elcast evil-visualstar pinentry pinentry-emacs mstmp-oauth2 msmtp-oauth2 oauth2 evil-numbers rmsbolt compiler-explorer beacon-color beacon dashboard lldb-vscode cpptools dap-cpptools cpp-tools evil-surround evil-commentary evil-leader dap-utils dap-lldb tree-sitter-indent elisp-tree-sitter emacs-tree-sitter tree-sitter-core tree-sitter-langs yasnippet xclip which-key use-package undo-tree tree-sitter theme-changer quelpa org-roam matlab-mode magit lsp-ui linum-relative ligature ivy-rich indent-info helpful gruvbox-theme general flycheck exec-path-from-shell evil-nerd-commenter evil-collection elfeed-org doom-themes doom-modeline dap-mode counsel-projectile company-box command-log-mode auctex))
  '(tab-width 4))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
-
-
-;; (setq compilation-read-command t)
+ '(hl-line ((t (:extend t :underline t)))))
